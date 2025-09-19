@@ -1151,6 +1151,7 @@ const LoginPage = () => {
         { withCredentials: true }
       );
       if (data.status === "success") {
+        console.log("Login successful:", data.user);
         dispatch(
           registerUser({
             _id: data.user._id,
@@ -1159,6 +1160,7 @@ const LoginPage = () => {
             nickname: data.user.nickname,
             password: data.user.password,
             points: data.user.points,
+            quizDay: data.user.quizDay,
           })
         );
         navigate("/DashBoardPage");

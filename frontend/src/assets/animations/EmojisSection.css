@@ -1,0 +1,252 @@
+/* All rules scoped under .emoji-section-container or emoji-specific classes */
+
+.emoji-section-container {
+  flex: 1;
+  width: 100%;
+  max-width: 450px; /* allow full column width */
+  min-width: 320px;
+  margin: 0;
+  padding: 20px;
+
+  position: relative;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  overflow: hidden;
+  animation: fadeIn 1.2s ease-in-out;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.emoji-section-container:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* keep content in normal flow to avoid height collapse */
+.emoji-section-content {
+  position: static;
+  text-align: center;
+  padding-top: 4px;
+}
+
+/* floating animated background shapes (scoped) */
+.emoji-section-container .emoji-bg::before,
+.emoji-section-container .emoji-bg::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  z-index: 0;
+}
+/* .emoji-section-container .emoji-bg::before {
+  width: 150px;
+  height: 150px;
+  top: -40px;
+  left: -40px;
+  background: radial-gradient(circle, rgba(0, 162, 255, 0.4), transparent 70%);
+  animation: float 6s infinite ease-in-out;
+}
+.emoji-section-container .emoji-bg::after {
+  width: 200px;
+  height: 200px;
+  bottom: -60px;
+  right: -60px;
+  background: radial-gradient(circle, rgba(37, 235, 57, 0.25), transparent 70%);
+  animation: float 6s infinite ease-in-out;
+  animation-delay: 3s;
+} */
+
+/* Titles */
+.emoji-section-container .emoji-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  background: linear-gradient(90deg, #00c6ff, #ff6ec7, #00ff88);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 4s ease infinite;
+  position: relative;
+  z-index: 1;
+}
+
+/* Subtitle */
+.emoji-section-container .emoji-subtitle {
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+  display: inline-block;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.emoji-section-container .emoji-subtitle span {
+  display: inline-block;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(90deg, #00c6ff, #e41d98, #00ff88);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 12s ease infinite, popGlow 2.5s ease-in-out infinite;
+  margin-right: 6px;
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.2);
+}
+.emoji-section-container .emoji-subtitle span:nth-child(1) {
+  animation-delay: 0s, 0s;
+}
+.emoji-section-container .emoji-subtitle span:nth-child(2) {
+  animation-delay: 0s, 0.4s;
+}
+.emoji-section-container .emoji-subtitle span:nth-child(3) {
+  animation-delay: 0s, 0.8s;
+}
+.emoji-section-container .emoji-subtitle span:nth-child(4) {
+  animation-delay: 0s, 1.2s;
+}
+.emoji-section-container .emoji-subtitle span:nth-child(5) {
+  animation-delay: 0s, 1.6s;
+}
+.emoji-section-container .emoji-subtitle span:nth-child(6) {
+  animation-delay: 0s, 2s;
+}
+.emoji-section-container .emoji-subtitle span:nth-child(7) {
+  animation-delay: 0s, 2.4s;
+}
+.emoji-section-container .emoji-subtitle span:nth-child(8) {
+  animation-delay: 0s, 2.8s;
+}
+
+/* Emoji buttons */
+.emoji-section-container .emoji-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  position: relative;
+  z-index: 1;
+}
+
+.emoji-section-container .emoji-buttons button {
+  flex: 1 1 40%;
+  padding: 10px 16px;
+  font-size: 1rem;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.15);
+  color: #0c0a0a;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.emoji-section-container .emoji-buttons button:hover {
+  transform: rotate(-2deg) scale(1.05);
+  border-color: #00c6ff;
+  box-shadow: 0 0 12px rgba(0, 198, 255, 0.8);
+}
+
+/* Selected emoji glowing gradient */
+.emoji-section-container .selected-emoji {
+  background: linear-gradient(135deg, #ff6ec7, #00c6ff);
+  color: #ff6ec7 !important;
+  font-weight: bold;
+  box-shadow: 0 0 15px rgba(255, 110, 199, 0.9);
+  transform: scale(1.1);
+}
+
+/* Quote label and text */
+.emoji-section-container .emoji-quote-box h4,
+.emoji-section-container .quote-text {
+  font-size: 1rem;
+  margin: 15px 0;
+  font-weight: 600;
+  display: inline-block;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.emoji-section-container .emoji-quote-box h4 span,
+.emoji-section-container .quote-text span {
+  display: inline-block;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(90deg, #00c6ff, #e41d98, #00ff88);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 12s ease infinite, popGlow 2.5s ease-in-out infinite;
+  margin-right: 6px;
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.2);
+}
+
+/* Saved text */
+.emoji-section-container .saved-text {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: inline-block;
+  background: linear-gradient(90deg, #00c6ff, #c31f84, #00ff88);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 12s ease infinite;
+  text-shadow: 0 0 6px rgba(0, 200, 255, 0.6);
+}
+
+/* Save button strictly scoped */
+.emoji-section-container .save-mood-btn {
+  width: 100%;
+  padding: 12px 18px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: rgba(0, 198, 255, 0.8);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 6px rgba(0, 198, 255, 0.8), 0 0 20px rgba(228, 29, 152, 0.6),
+    0 0 28px rgba(0, 255, 136, 0.5);
+}
+
+.emoji-section-container .save-mood-btn:hover {
+  transform: rotate(-2deg) scale(1.05);
+  background: linear-gradient(135deg, #ff6ec7, #ff00aa);
+  box-shadow: 0 0 12px rgba(255, 110, 199, 0.8);
+  color: #fff;
+}
+
+/* animations */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.05);
+  }
+}

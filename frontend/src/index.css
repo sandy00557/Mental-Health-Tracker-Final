@@ -26,6 +26,37 @@
   .animation-delay-4000 {
     animation-delay: 4s;
   }
+
+  /* 👇 your existing blob animation code ... */
+
+  @layer utilities {
+    .split-char {
+      color: #00ffff; /* or var(--hex-current-1) */
+      background-color: transparent; /* or var(--hex-current-3) */
+      outline: 1px solid #00ffff; /* or var(--hex-current-2) */
+      border-radius: 0.25rem;
+      padding: 0.25rem 0.35rem; /* 👈 inner space inside box */
+      margin: 0 0.15rem; /* 👈 gap between boxes */
+      display: inline-block;
+
+      /* Glow effect */
+      box-shadow: 0 0 5px #6ee7b7, 0 0 10px #3b82f6, 0 0 20px #9333ea;
+    }
+
+    @keyframes bounceY {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-0.75rem);
+      }
+    }
+
+    .animate-bounce-slow {
+      animation: bounceY 1.5s ease-in-out infinite;
+    }
+  }
 }
 
 /* ✅ add electric border animation */

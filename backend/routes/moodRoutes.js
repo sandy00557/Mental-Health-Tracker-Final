@@ -11,8 +11,9 @@ const openai = new OpenAI({
 router.post("/detect", async (req, res) => {
   console.log("Not received text from record");
   try {
-    console.log("Not received text from record",text);
     const { text } = req.body;
+        console.log("Not received text from record",text);
+
 
 
     if (!text || text.trim().length === 0) {

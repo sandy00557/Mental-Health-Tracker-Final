@@ -1,0 +1,88 @@
+/* .slider-container {
+  position: relative;
+  width: 300px;
+  margin: 20px auto;
+  text-align: center;
+  cursor: pointer; 
+  user-select: none; 
+}
+
+.stars {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 2rem;
+  pointer-events: none; 
+}
+
+.slider-track {
+  position: relative;
+  height: 10px;
+  background: #635fc7; 
+  border-radius: 5px;
+}
+
+.slider-emoji {
+  position: absolute;
+  top: -25px;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  transition: left 0.2s ease; 
+  cursor: grab; 
+}
+
+.slider-emoji:active {
+  cursor: grabbing;
+} */
+
+.slider-container {
+  position: relative;
+  width: 300px;
+  margin: 20px auto;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.stars {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 10px;
+  margin-right: 40px;
+  font-size: 2rem;
+  pointer-events: none;
+  transition: transform 0.2s ease;
+  gap: 3px;
+}
+
+.stars span.star:hover {
+  transform: scale(1.3);
+}
+
+.slider-track {
+  position: relative;
+  height: 10px;
+  width: 330px;
+  border-radius: 10px;
+  background: linear-gradient(to right, #ff4d4d 0%, #ffd11a 50%, #66cc66 100%);
+}
+
+.slider-emoji {
+  position: absolute;
+  top: -25px;
+  transform: translateX(-50%);
+  font-size: 2rem;
+
+  /* Smooth transitions */
+  transition: left 0.2s ease, transform 0.2s ease;
+
+  /* ✅ Prevent dragging & grabbing */
+  -webkit-user-drag: none; /* disable image/emoji drag in Chrome & Safari */
+  user-select: none; /* prevent text selection */
+  pointer-events: none; /* ignore mouse grab/drag events */
+}
+
+.slider-emoji:active {
+  /* Just keep a nice "pop" animation, not dragging */
+  transform: translateX(-50%) scale(1.2);
+}

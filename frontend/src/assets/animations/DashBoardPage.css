@@ -1,0 +1,94 @@
+/* Page grid and layout are scoped to dashboard-only classes */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* two equal columns */
+  grid-auto-rows: min-content;
+  gap: 24px;
+  width: min(95vw, 1600px); /* make cards bigger on wide screens */
+  margin: 96px auto 0; /* leave space for fixed theme chooser */
+  padding: 0 16px;
+}
+
+/* column stacks */
+.dashboard-left,
+.dashboard-right {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* emojis + checklist side-by-side inside the left column only */
+.dashboard-sections {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: start;
+}
+
+/* top-center theme selector: scoped to its container */
+.color-chooser {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+}
+
+.color-chooser select {
+  padding: 12px 18px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 2px solid #00c6ff;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  color: #333;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.color-chooser select:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(0, 198, 255, 0.5);
+}
+
+/* pin the profile icon: scoped to the first button inside dashboard-right only */
+.dashboard-right > button:first-child {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  z-index: 60;
+}
+
+/* responsive stack for narrow screens */
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    margin-top: 104px; /* keep space under fixed chooser */
+  }
+  .dashboard-sections {
+    grid-template-columns: 1fr; /* stack Emojis and Checklist */
+  }
+}
+
+@media (max-width: 1400px) {
+  .dashboard-sections {
+    gap: 80px;
+  }
+  .rps-container,
+  .emojis-container {
+    max-width: 290px;
+  }
+}
+@media (max-width: 800px) {
+  .dashboard-sections {
+    grid-template-columns: 1fr;
+  }
+}

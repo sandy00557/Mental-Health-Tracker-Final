@@ -112,54 +112,223 @@ Rules:
 
 
 
-export const updatePoints=async(req,res)=>{
-  try{
-    console.log("Received data from fontend");
-    const {points,_id}=req.body;
-  if(!points || !_id){
-    return res.status(400).json({
-      status:'fail',
-      message:'Points and email are required'
-    })
-  }
-  const user=await User.findOne({_id});
-  if(!user){
-    return res.status(404).json({
-      status:'fail',
-      message:'No user found'
-    })
-  }
-  const today=new Date();
-  today.setHours(0,0,0,0);
+// export const updatePoints=async(req,res)=>{
+//   try{
+//     console.log("Received data from frontend");
+//     console.log("Req.body received:*************************************8", req.body);
+//     const {points,_id}=req.body;
+//     console.log("************************points received");
+//   if(!points || !_id){
+//     return res.status(400).json({
+//       status:'fail',
+//       message:'Points and email are required'
+//     })
+//   }
+//   const user=await User.findOne({_id});
+//   if(!user){
+//     return res.status(404).json({
+//       status:'fail',
+//       message:'No user found'
+//     })
+//   }
+//   const today=new Date();
+//   today.setHours(0,0,0,0);
 
-  const last =new Date(user.lastChecklistCompletedDate);
-  last.setHours(0,0,0,0);
-  if(last.getTime()===today.getTime()){
-    return res.status(409).json({
-      status:"fail",
-      message:"Today's CheckList already completed",
-      lastdate:lastdate.getTime()
-    })
-  }
-  if(user.lastChecklistCompletedDate===null || last.getTime()!==today.getTime()){
-    user.points+=50;
+//   const last =new Date(user.lastChecklistCompletedDate);
+//   last.setHours(0,0,0,0);
+//   if(last.getTime()===today.getTime()){
+//     return res.status(409).json({
+//       status:"fail",
+//       message:"Today's CheckList already completed",
+//       lastdate:lastdate.getTime()
+//     })
+//   }
+//   if(user.lastChecklistCompletedDate===null || last.getTime()!==today.getTime()){
+//     user.points+=50;
+//     await user.save();
+//     return res.status(200).json({
+//     status:'success',
+//     message:`Points updated successfully. New points: ${user.points}`,
+//     newPoints:user.points ,
+//     lastdate:lastdate.getTime()
+//     })
+//   }
+
+//   }
+//   catch(err){
+//     return res.status(500).json({
+//       status:'fail',
+//       message:"Internal API Error"
+//     })
+//   }
+// }
+
+
+
+
+
+
+
+
+// export const updatePoints=async(req,res)=>{
+//   try{
+//     console.log("Received data from frontend");
+//     console.log("Req.body received:*************************************8", req.body);
+//     const {points,_id}=req.body;
+//     console.log("************************points received");
+//   if(!points || !_id){
+//     return res.status(400).json({
+//       status:'fail',
+//       message:'Points and email are required'
+//     })
+//   }
+//   console.log("Points and id received", points, _id);
+// const user = await User.findById(_id); 
+//   if(!user){
+//     return res.status(404).json({
+//       status:'fail',
+//       message:'No user found'
+//     })
+//   }
+//   console.log("User found:", user);
+//   const today=new Date();
+//   today.setHours(0,0,0,0);
+//   console.log("Today's date (normalized):", today);
+
+//   user.lastChecklistCompletedDate=today;
+
+//   console.log("Last checklist completed date:", user.lastChecklistCompletedDate);
+//   user.points+=50;
+//   await user.save();
+//   console.log("After user.lastChecklistCompletedDate"+user.lastChecklistCompletedDate);
+//   return res.status(200).json({
+//     status:'success',
+//     message:`Points updated successfully. New points: ${user.points}`,
+//     newPoints:user.points ,
+//     lastdate:user.lastChecklistCompletedDate.getTime()
+//   })
+//   // const last =new Date(user.lastChecklistCompletedDate);
+//   // last.setHours(0,0,0,0);
+//   // if(last.getTime()===today.getTime()){
+//   //   return res.status(409).json({
+//   //     status:"fail",
+//   //     message:"Today's CheckList already completed",
+//   //     lastdate:lastdate.getTime()
+//   //   })
+//   // }
+//   // if(user.lastChecklistCompletedDate===null || last.getTime()!==today.getTime()){
+//   //   user.points+=50;
+//   //   await user.save();
+//   //   return res.status(200).json({
+//   //   status:'success',
+//   //   message:`Points updated successfully. New points: ${user.points}`,
+//   //   newPoints:user.points ,
+//   //   lastdate:lastdate.getTime()
+//   //   })
+//   // }
+
+//   }
+//   catch(err){
+//     return res.status(500).json({
+//       status:'fail',
+//       message:"Internal API Error"
+//     })
+//   }
+// }
+
+export const updatePoints = async (req, res) => {
+  try {
+    console.log("Received data from frontend:", req.body);
+    const { points, _id, lastdate } = req.body;   // ✅ include lastdate
+
+    if (!points || !_id) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Points and ID are required",
+      });
+    }
+
+    const user = await User.findById(_id);
+    if (!user) {
+      return res.status(404).json({
+        status: "fail",
+        message: "No user found",
+      });
+    }
+
+    // ✅ set from frontend if provided
+    if (lastdate) {
+      user.lastChecklistCompletedDate = new Date(lastdate);
+    }
+
+    user.points = points;
     await user.save();
-    return res.status(200).json({
-    status:'success',
-    message:`Points updated successfully. New points: ${user.points}`,
-    newPoints:user.points ,
-    lastdate:lastdate.getTime()
-    })
-  }
 
-  }
-  catch(err){
+    console.log("Updated user:", user);
+
+    return res.status(200).json({
+      status: "success",
+      message: `Points updated successfully. New points: ${user.points}`,
+      newPoints: user.points,
+      lastdate: user.lastChecklistCompletedDate,
+    });
+  } catch (err) {
+    console.error("Update error:", err);
     return res.status(500).json({
-      status:'fail',
-      message:"Internal API Error"
-    })
+      status: "fail",
+      message: "Internal API Error",
+    });
   }
-}
+};
+
+
+
+// export const updatePoints = async (req, res) => {
+//   try {
+//     console.log("Received data from frontend");
+//     const { points, _id } = req.body;
+
+//     if (!points || !_id) {
+//       return res.status(400).json({
+//         status: "fail",
+//         message: "Points and ID are required",
+//       });
+//     }
+
+//     const user = await User.findById(_id);
+//     if (!user) {
+//       return res.status(404).json({
+//         status: "fail",
+//         message: "No user found",
+//       });
+//     }
+
+//     const today = new Date();
+//     today.setHours(0, 0, 0, 0);
+
+//     // ✅ Force update
+//     user.lastChecklistCompletedDate = today;
+//     user.points = points; // use frontend-calculated value or `user.points += 50`
+//     user.markModified("lastChecklistCompletedDate");
+
+//     await user.save();
+
+//     console.log("Updated user:", user);
+
+//     return res.status(200).json({
+//       status: "success",
+//       message: `Points updated successfully. New points: ${user.points}`,
+//       newPoints: user.points,
+//       lastdate: user.lastChecklistCompletedDate.getTime(),
+//     });
+//   } catch (err) {
+//     console.error("Update error:", err);
+//     return res.status(500).json({
+//       status: "fail",
+//       message: "Internal API Error",
+//     });
+//   }
+// };
 
 
 
@@ -180,18 +349,18 @@ export const status=async(req,res)=>{
       })
     }
     const today=new Date();
-  today.setHours(0,0,0,0);
+    today.setHours(0,0,0,0);
 
-  const last =new Date(user.lastChecklistCompletedDate);
-  last.setHours(0,0,0,0);
-  if(last.getTime()===today.getTime()){
-    return res.status(409).json({
-      status:"fail",
+    const last =new Date(user.lastChecklistCompletedDate);
+    last.setHours(0,0,0,0);
+    if(last.getTime()===today.getTime()){
+    return res.status(200).json({
+      status:"successs",
       locked:true,
       message:"Today's CheckList already completed"
     })
-  }
-  else if(last.getTime()!==today.getTime() || user.lastChecklistCompletedDate===null){
+    }
+    if(last.getTime()!==today.getTime() || user.lastChecklistCompletedDate===null){
     return res.status(200).json({
       status:"success",
       locked:false,

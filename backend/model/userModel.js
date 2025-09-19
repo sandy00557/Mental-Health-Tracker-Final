@@ -187,6 +187,10 @@ const userSchema=new mongoose.Schema({
     lastChecklistCompletedDate:{
         type:Date ,
         default:null
+    },
+    productsBought:{
+        type:Number,
+        default:0
     }
 });
 

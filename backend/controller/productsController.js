@@ -29,8 +29,27 @@ export  const getAllProducts=async(req,res)=>{
 }
 
 
+// export const deductPoints=async(req,res)=>{
+//     const {points,userId}=req.body;
+//     const user=await User.findById(userId);
+//     if(!user){
+//         return res.status(404).json({
+//             status:'fail',
+//             message:'No user found'
+//         })
+//     }
+//     user.points-=points;
+//     // user.productsBought=productsBought+1;
+//     await user.save();
+//     return res.status(200).json({
+//         status:'success',
+//         newpoints:user.points 
+//     })
+// }
+
+
 export const deductPoints=async(req,res)=>{
-    const {points,userId}=req.body;
+    const {points,userId,productsBought}=req.body;
     const user=await User.findById(userId);
     if(!user){
         return res.status(404).json({
@@ -39,9 +58,11 @@ export const deductPoints=async(req,res)=>{
         })
     }
     user.points-=points;
+    user.productsBought=productsBought+1;
     await user.save();
     return res.status(200).json({
         status:'success',
-        newpoints:user.points 
+        newpoints:user.points,
+        updatedProductsBought:user.productsBought
     })
 }

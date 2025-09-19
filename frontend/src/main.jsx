@@ -4,7 +4,8 @@ import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { Provider } from "react-redux";
-import store from "./redux/store.js";
+import store, { persistor } from "./redux/store.js";
+import { PersistGate } from "redux-persist/integration/react";
 import "./index.css";
 
 createRoot(document.getElementById("root")).render(
@@ -33,12 +34,29 @@ useSelector() to read and subscribe to the store
 
 useDispatch() to send actions to the store
 
+
+
+
+
+What is PersistGate?
+PersistGate is a special component from redux-persist.
+Its job is to delay rendering your <App /> until your persisted state (e.g., theme) is rehydrated (restored) from localStorage (or whichever storage you’re using).
+
+👉 Think of it like this:
+Your Redux store is empty at first. redux-persist then loads the saved state from localStorage.
+PersistGate makes your app wait until this loading is done, so your UI doesn’t flash with wrong/default values.
+
+🔹 What does loading={null} mean?
+While waiting for the persisted state, PersistGate can show something temporarily.
+If you put loading={null}, it shows nothing (blank) while loading.
 */
   <Provider store={store}>
-    <HelmetProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </HelmetProvider>
+    <PersistGate loading={<div>Loading.....</div>} persistor={persistor}>
+      <HelmetProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </HelmetProvider>
+    </PersistGate>
   </Provider>
 );

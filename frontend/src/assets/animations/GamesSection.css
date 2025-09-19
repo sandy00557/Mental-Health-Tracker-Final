@@ -1,0 +1,482 @@
+/* GamesSection.css
+   Scoped to .games-quiz so styles do not leak to other pages
+*/
+/* Fix for zoom issue: keep quiz container fixed over background */
+/* Full page wrapper */
+.games-quiz {
+  position: relative;
+  width: 100vw; /* full viewport */
+  height: 100vh; /* full viewport */
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("../assets/animations/Quiz-Section-New.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-sizing: border-box;
+}
+
+/* Center the quiz container without transform */
+.games-quiz .quiz-container {
+  width: 900px;
+  max-width: 1200px;
+  min-height: 500px;
+  padding: 2rem;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(155deg, #7960d4, #ca8c98, rgb(99, 209, 183));
+  box-shadow: 0.1em 0.1em 0.5em #0005;
+  transform: translateY(20px);
+}
+
+/* Main quiz card - larger than before */
+.games-quiz .quiz-container {
+  /* background: rgb(228, 116, 213); */
+  background: linear-gradient(155deg, #7960d4, #ca8c98, rgb(99, 209, 183));
+  box-shadow: 0.1em 0.1em 0.5em #0005;
+
+  /* FIX: use rounded rectangle instead of forced oval */
+  border-radius: 50%;
+  overflow: hidden;
+
+  width: 900px; /* expand more */
+  max-width: 1200px; /* allow large screens */
+  min-height: 500px; /* keep good height */
+  height: auto; /* let content decide */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* pushes button to bottom */
+  align-items: center;
+  padding: 2rem;
+  transform: translateY(-70px);
+}
+
+/* inner sliding page same as CodePen but scoped */
+.games-quiz .page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  animation: show 0.45s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+@keyframes show {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* question styling (centered and constrained) */
+/* IMPROVED: question styling with modern fonts */
+/* IMPROVED: question styling with modern fonts */
+.games-quiz .question {
+  text-align: center;
+  font-family: "Poppins", "Segoe UI", sans-serif;
+  font-weight: 700;
+  color: #1d1d1f;
+  padding-bottom: 1rem;
+
+  font-size: 1.6rem; /* bigger and clearer */
+  line-height: 1.5;
+  max-width: 34rem;
+
+  margin: 0 0 1.2rem 0;
+  letter-spacing: -0.015em;
+
+  background: linear-gradient(90deg, #333, #555); /* dark gradient text */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* container for answers */
+.games-quiz .answer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 1rem;
+  gap: 0.35rem;
+  box-sizing: border-box;
+}
+
+/* ANSWER BUTTONS
+   - left number using pseudo-element (data-index)
+   - full-width, left aligned content for consistent alignment
+*/
+/* IMPROVED: ANSWER BUTTONS with modern fonts */
+.games-quiz .answer {
+  width: 90%;
+  max-width: 32rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.8rem;
+
+  background: transparent;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px; /* rounded card look */
+
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 1.05rem;
+  padding: 0.9rem 1.2rem;
+  cursor: pointer;
+  color: #2d2d2d;
+
+  transition: all 0.3s ease;
+  letter-spacing: -0.01em;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* numbering on left */
+/* IMPROVED: numbering on left with better styling */
+.games-quiz .answer::before {
+  content: attr(data-index) ".";
+  width: 1.5rem;
+  text-align: right;
+  display: inline-block;
+  margin-right: 0.7rem;
+  font-weight: 700;
+  color: #2d2d2d;
+  font-size: 1rem;
+}
+
+/* selected style (before marking correct/incorrect) */
+.games-quiz .answer.selected {
+  background: rgba(55, 119, 187, 0.08);
+  border-color: var(--clr-primary);
+  color: var(--clr-primary);
+  font-weight: 600;
+}
+
+/* correct / incorrect classes */
+.games-quiz .answer.good,
+.games-quiz .answer.bad {
+  color: #fff !important;
+  font-weight: 600;
+  border-left-color: rgba(0, 0, 0, 0.08);
+  transition: background 0.35s ease, color 0.35s ease; /* smoother blend */
+}
+
+.games-quiz .answer.good {
+  background: #d4f8d4; /* soft green background */
+  border-color: #5d5; /* green border */
+  color: #256029 !important; /* dark green text */
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(93, 221, 93, 0.25);
+  transform: scale(1.02);
+}
+
+.games-quiz .answer.bad {
+  background: #fddddd; /* soft red background */
+  border-color: #d55; /* red border */
+  color: #7a1c1c !important; /* dark red text */
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(221, 85, 85, 0.25);
+  transform: scale(0.98);
+}
+
+/* subtle hover */
+.games-quiz .answer:hover {
+  border-color: var(--clr-primary);
+  box-shadow: 0 4px 12px rgba(55, 119, 187, 0.25);
+  transform: translateY(-2px);
+}
+
+/* Indicator: the floating blue bar that moves with hovered option
+   uses pseudo-elements as in CodePen - scoped under .games-quiz
+*/
+/* FIXED: Indicator for proper hover and selection animation */
+.games-quiz .indicator::before,
+.games-quiz .indicator::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform-origin: left;
+  transform: translate(calc(var(--x) * 1px), calc(var(--y) * 1px)) scaleX(0); /* start collapsed */
+  background: rgba(55, 119, 187, 0.25); /* semi-transparent blue */
+  width: calc(var(--width) * 1px);
+  height: calc(var(--height) * 1px);
+  border-radius: 0.3rem;
+  transition: transform 0.35s ease, background 0.35s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.games-quiz .indicator::after {
+  transform-origin: right;
+}
+/* Base visible indicator */
+.games-quiz .indicator:not(.hidden)::before,
+.games-quiz .indicator:not(.hidden)::after {
+  transform: translate(calc(var(--x) * 1px), calc(var(--y) * 1px)) scaleX(1);
+}
+
+/* Default hover/active = blue */
+.games-quiz .indicator:not(.hidden):not(.good):not(.bad)::before,
+.games-quiz .indicator:not(.hidden):not(.good):not(.bad)::after {
+  background: var(--clr-primary);
+}
+
+/* Correct = green */
+.games-quiz .indicator.good::before,
+.games-quiz .indicator.good::after {
+  background: rgba(93, 221, 93, 0.25);
+}
+
+/* Incorrect = red */
+.games-quiz .indicator.bad::before,
+.games-quiz .indicator.bad::after {
+  background: rgba(221, 85, 85, 0.25);
+}
+
+/* Next button: hidden by default, animate in using .show */
+.games-quiz .next-button {
+  align-self: center; /* ✅ button stays inside */
+  margin-top: 2rem; /* space from answers */
+
+  position: relative; /* no more absolute */
+  right: auto;
+  bottom: auto;
+
+  background-color: rgb(99, 209, 183);
+  border: none;
+  border-radius: 0.4rem;
+  color: rgb(37, 33, 33);
+  padding: 0.5rem 1.5rem;
+  font-size: 1.2rem;
+  font-family: Arial, sans-serif;
+  cursor: pointer;
+  font-weight: 500;
+  box-shadow: 0.1rem 0.1rem 1rem var(--clr-primary);
+
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.28s ease, opacity 0.28s ease;
+}
+
+/* visible state (when user has selected an option) */
+/* visible state (when user has selected an option) */
+.games-quiz .next-button.show {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+  animation: showBtn 0.3s ease-out;
+}
+
+/* Next button slight entry animation (mimic CodePen) */
+@keyframes showBtn {
+  from {
+    transform: translate(5em, -20%) rotate(-15deg);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* scoreboard / final text */
+.games-quiz .score {
+  font-family: Arial, sans-serif;
+  color: #222;
+  font-size: 1em;
+  font-weight: 500;
+  padding-top: 1em;
+}
+
+/* Already completed container */
+.games-quiz .already-completed {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  box-shadow: 0.1rem 0.1rem 0.5rem #0002;
+  width: 100%;
+  max-width: 28rem;
+}
+
+.games-quiz .already-completed h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.4rem;
+  color: var(--clr-primary);
+}
+
+.games-quiz .already-completed p {
+  margin: 0.3rem 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.games-quiz .already-completed button {
+  margin: 0.5rem;
+  padding: 0.4rem 1rem;
+  border-radius: 0.3rem;
+  border: none;
+  background-color: var(--clr-primary);
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.games-quiz .already-completed button:hover {
+  background-color: #258;
+}
+
+/* small responsive tweaks */
+@media (max-width: 520px) {
+  .games-quiz .quiz-container {
+    width: 100%;
+    padding: 1.25rem;
+    min-height: 22rem;
+  }
+  .games-quiz .answer {
+    width: 100%;
+    max-width: 100%;
+    padding: 0.5rem;
+  }
+  .games-quiz .question {
+    font-size: 1.2rem;
+    max-width: 100%;
+  }
+}
+
+/* Reusable card style for loading, error, completed, etc. */
+.games-quiz .card-style {
+  width: 900px;
+  max-width: 1200px;
+  min-height: 500px;
+  padding: 2rem;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(155deg, #7960d4, #ca8c98, rgb(99, 209, 183));
+  box-shadow: 0.1em 0.1em 0.5em #0005;
+  font-family: "Poppins", "Segoe UI", sans-serif;
+  color: #1d1d1f;
+  text-align: center;
+  gap: 0.5rem;
+  transform: translateY(-70px);
+}
+
+.games-quiz .card-style h2,
+.games-quiz .card-style h3,
+.games-quiz .card-style p {
+  margin: 0.3rem 0;
+}
+
+/* floating info box top-left */
+/* top-left floating info, fixed to viewport */
+/* Floating top-left info outside any transforms */
+.quiz-info {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  border-radius: 3rem;
+  border: 2px solid black;
+  background: rgb(99, 209, 183);
+  padding: 0.8rem 1.2rem;
+  border-radius: 0.8rem;
+  font-family: "Poppins", "Segoe UI", sans-serif;
+  color: #1d1d1f;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 100; /* always on top */
+}
+
+.quiz-info h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.quiz-info h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* use same font and gradient/text style as quiz question */
+.games-quiz .styled-text {
+  font-family: "Poppins", "Segoe UI", sans-serif;
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: #1d1d1f;
+  text-align: center;
+  line-height: 1.5;
+  margin: 0.5rem 0;
+}
+
+.products-move {
+  align-self: center; /* ✅ button stays inside */
+  margin-top: 2rem; /* space from answers */
+
+  /* position: relative;  */
+  right: auto;
+  bottom: auto;
+
+  background-color: rgb(99, 209, 183);
+  border: 2px solid black;
+  border-radius: 3rem;
+  color: rgb(37, 33, 33);
+  padding: 0.5rem 1.5rem;
+  font-size: 1.2rem;
+  font-family: "Poppins", "Segoe UI", sans-serif;
+  /* cursor: pointer; */
+  font-weight: 500;
+  box-shadow: 0.1rem 0.1rem 1rem var(--clr-primary);
+
+  /* opacity: 0; */
+  /* pointer-events: none; */
+  /* transition: transform 0.28s ease, opacity 0.28s ease; */
+}
+
+.dashboard-move {
+  align-self: center; /* ✅ button stays inside */
+  margin-top: 2rem; /* space from answers */
+
+  position: relative; /* no more absolute */
+  right: auto;
+  bottom: auto;
+
+  background-color: rgb(99, 209, 183);
+  border: 2px solid black;
+  border-radius: 3rem;
+  color: rgb(37, 33, 33);
+  padding: 0.5rem 1.5rem;
+  font-size: 1.2rem;
+  font-family: "Poppins", "Segoe UI", sans-serif;
+  /* cursor: pointer; */
+  font-weight: 500;
+  box-shadow: 0.1rem 0.1rem 1rem var(--clr-primary);
+
+  /* opacity: 0; */
+  /* pointer-events: none; */
+  /* transition: transform 0.28s ease, opacity 0.28s ease; */
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%; /* or specific width */
+}

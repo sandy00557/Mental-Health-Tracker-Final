@@ -252,7 +252,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import API from "../api/axios";
-import "./CoachSection.css";
+import "../assets/animations/CoachSection.css";
 import RobotIcon from "../assets/Robot.jpg";
 import { useNavigate } from "react-router-dom";
 
@@ -407,10 +407,10 @@ const CoachSection = () => {
                 Games Section
               </button>
               <button
-                onClick={() => navigate("/DashBoardPage/VoiceTextSection")}
+                onClick={() => navigate("/DashBoardPage/EmotionRecorder")}
                 className="text-left px-3 py-2 rounded-lg hover:bg-green-100 transition"
               >
-                Voice_Text Section
+                Emotion Recorder
               </button>
               <button
                 onClick={logoutsession}

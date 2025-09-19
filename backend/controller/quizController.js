@@ -7,7 +7,6 @@ import Quiz from '../model/quizModel.js';
 
 export const updatePoints=async(req,res)=>{
   try{
-
     //axios sent a patch request with body of {points:20} for eg
     console.log('updatePoints called with body:',req.body);//Debug Log
     const {points,userId}=req.body;
@@ -57,7 +56,7 @@ export const updatePoints=async(req,res)=>{
 
 export const getDailyQuiz = async (req, res) => {
   try {
-    const userId=req.query.userId || "68955900ea39ddff800e24ba";
+    const userId=req.query.id || "68955900ea39ddff800e24ba";
     const user = await User.findById(userId);
 
     if(!user){

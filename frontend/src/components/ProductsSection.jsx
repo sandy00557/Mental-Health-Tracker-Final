@@ -966,20 +966,459 @@
 
 // export default ProductsSection;
 
+// import API from "../api/axios";
+// import { Helmet } from "react-helmet-async";
+// import { useState, useEffect } from "react";
+// import { useSelector, useDispatch } from "react-redux";
+// import { setPoints } from "../redux/userSlice";
+// import { useNavigate } from "react-router-dom";
+// import "../assets/animations/ProductsSection.css"; // ✅ Import the CSS we built
+
+// const ProductsSection = () => {
+//   const [productz, setProductz] = useState([]);
+//   const [productsFailure, setProductsFailure] = useState(false);
+//   const [productsSuccess, setProductsSuccess] = useState(true);
+//   const dispatch = useDispatch();
+//   const navigate = useNavigate();
+//   let globalPoints_Products = useSelector((state) => state.user.points);
+//   const userId = useSelector((state) => state.user._id);
+
+//   const logoutsession = async () => {
+//     const response = await API.post(
+//       "/auth/logout",
+//       {},
+//       { withCredentials: true }
+//     );
+//     if (response.data.status === "success") {
+//       navigate("/");
+//     }
+//   };
+
+//   useEffect(() => {
+//     const fetchProducts = async () => {
+//       try {
+//         const response = await API.get("/products/", {
+//           withCredentials: true,
+//         });
+//         setProductsSuccess(true);
+//         setProductz(response.data.data);
+//       } catch (err) {
+//         console.log(err);
+//         setProductsFailure(true);
+//       }
+//     };
+//     fetchProducts();
+//   }, [dispatch]);
+
+//   const handleBuy = async (product) => {
+//     if (globalPoints_Products < product.discountAmount) {
+//       const result = window.confirm(
+//         "You don't have enough points to buy this product. Do you want to play games and add more points?"
+//       );
+//       if (result) {
+//         navigate("/DashBoardPage");
+//       }
+//       return;
+//     }
+
+//     try {
+//       const response_pointsded = await API.patch("/products", {
+//         points: product.discountAmount,
+//         userId: userId,
+//       });
+
+//       if (response_pointsded.data.status === "success") {
+//         dispatch(setPoints(response_pointsded.data.newpoints));
+//         alert("✅ Purchase successful! Redirecting to download PDF...");
+//         window.open(product.bookLink, "_blank");
+//       } else {
+//         alert("❌ Failed to deduct points. Please try again.");
+//       }
+//     } catch (error) {
+//       console.log(error);
+//       alert("Something went wrong during purchase.");
+//     }
+//   };
+
+//   return (
+//     <>
+//       <Helmet>
+//         <title>Products Section</title>
+//       </Helmet>
+//       <input
+//         type="checkbox"
+//         id="drawer-toggle"
+//         className="relative sr-only peer"
+//       />
+//       <label
+//         htmlFor="drawer-toggle"
+//         className="absolute top-4 left-4 inline-block p-3 transition-all duration-500 bg-green-600 rounded-lg cursor-pointer peer-checked:left-64 peer-checked:rotate-180 z-30"
+//       >
+//         <div className="w-6 h-1 mb-1.5 -rotate-45 bg-white rounded-lg"></div>
+//         <div className="w-6 h-1 rotate-45 bg-white rounded-lg"></div>
+//       </label>
+
+//       {/* Sidebar */}
+//       <div className="fixed top-0 left-0 z-20 w-64 h-full transform -translate-x-full transition-transform duration-500 ease-in-out bg-white shadow-lg peer-checked:translate-x-0">
+//         <div className="px-6 py-8 space-y-6">
+//           <h2 className="text-lg font-semibold">Dashboard Menu</h2>
+//           <nav className="flex flex-col gap-4">
+//             <button
+//               onClick={() => navigate("/DashBoardPage")}
+//               className="text-left px-3 py-2 rounded-lg hover:bg-green-100 transition"
+//             >
+//               Main Page
+//             </button>
+//             <button
+//               onClick={() => navigate("/DashBoardPage/VideosSection")}
+//               className="text-left px-3 py-2 rounded-lg hover:bg-green-100 transition"
+//             >
+//               Videos Section
+//             </button>
+//             <button
+//               onClick={() => navigate("/DashBoardPage/GamesSection")}
+//               className="text-left px-3 py-2 rounded-lg hover:bg-green-100 transition"
+//             >
+//               Games Section
+//             </button>
+//             <button
+//               onClick={() => navigate("/DashBoardPage/CoachSection")}
+//               className="text-left px-3 py-2 rounded-lg hover:bg-green-100 transition"
+//             >
+//               Coach Section
+//             </button>
+//             <button
+//               onClick={() => navigate("/DashBoardPage/CoachSection")}
+//               className="text-left px-3 py-2 rounded-lg hover:bg-green-100 transition"
+//             >
+//               Voice Text Section
+//             </button>
+//             <button
+//               onClick={logoutsession}
+//               className="text-left px-3 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition"
+//             >
+//               Logout
+//             </button>
+//           </nav>
+//         </div>
+//       </div>
+
+//       <div className="flex-1 p-10 overflow-y-auto transition-all duration-500 ease-in-out peer-checked:ml-64">
+//         <h3>Welcome to Products Section</h3>
+//         {productsSuccess && (
+//           <>
+//             <h3>Products are listed below</h3>
+//             <h3>Your Points: {globalPoints_Products}</h3>
+
+//             <div className="products-container">
+//               {productz.map((product, index) => (
+//                 <div key={index} className="book">
+//                   {/* FRONT COVER */}
+//                   <div className="book-cover">
+//                     <h3>{product.name}</h3>
+//                     <img
+//                       src={product.image}
+//                       alt={product.name}
+//                       style={{ maxWidth: "100%", borderRadius: "4px" }}
+//                     />
+//                     <p>⭐ Rating: {product.rating}</p>
+//                     <p>Discounted Price: {product.discountAmount}</p>
+//                     <p>
+//                       <span>Original: {product.Amount}</span>
+//                     </p>
+//                     <button onClick={() => handleBuy(product)}>
+//                       Buy / Download PDF
+//                     </button>
+//                   </div>
+
+//                   {/* BOOK SPINE */}
+//                   <div className="book-spine"></div>
+
+//                   {/* INNER PAGE */}
+//                   <div className="book-page">
+//                     <h4>About this book</h4>
+//                     <p>
+//                       This is a premium product. Use your points to unlock and
+//                       download the PDF instantly.
+//                     </p>
+//                     <button onClick={() => handleBuy(product)}>
+//                       Purchase Now
+//                     </button>
+//                   </div>
+//                 </div>
+//               ))}
+//             </div>
+//           </>
+//         )}
+//         {productsFailure && <h1>Error fetching the products data.</h1>}
+//       </div>
+//     </>
+//   );
+// };
+
+// export default ProductsSection;
+
+// import API from "../api/axios";
+// import { Helmet } from "react-helmet-async";
+// import { useState, useEffect } from "react";
+// import { useSelector, useDispatch } from "react-redux";
+// import { incrementProductsBought, setPoints } from "../redux/userSlice";
+// import { useNavigate } from "react-router-dom";
+// import "../assets/animations/ProductsSection.css"; // ✅ Import the CSS we built
+// import "../assets/animations/CoachSection.css";
+// const ProductsSection = () => {
+//   const [productz, setProductz] = useState([]);
+//   const [productsFailure, setProductsFailure] = useState(false);
+//   const [productsSuccess, setProductsSuccess] = useState(true);
+//   const dispatch = useDispatch();
+//   const navigate = useNavigate();
+//   const productsBought = useSelector((state) => state.user.productsBought);
+//   let globalPoints_Products = useSelector((state) => state.user.points);
+//   const userId = useSelector((state) => state.user._id);
+
+//   const logoutsession = async () => {
+//     const response = await API.post(
+//       "/auth/logout",
+//       {},
+//       { withCredentials: true }
+//     );
+//     if (response.data.status === "success") {
+//       navigate("/");
+//     }
+//   };
+
+//   useEffect(() => {
+//     const fetchProducts = async () => {
+//       try {
+//         const response = await API.get("/products/", {
+//           withCredentials: true,
+//         });
+//         setProductsSuccess(true);
+//         setProductz(response.data.data);
+//       } catch (err) {
+//         console.log(err);
+//         setProductsFailure(true);
+//       }
+//     };
+//     fetchProducts();
+//   }, [dispatch]);
+
+//   const handleBuy = async (product) => {
+//     if (globalPoints_Products < product.discountAmount) {
+//       const result = window.confirm(
+//         "You don't have enough points to buy this product. Do you want to play games and add more points?"
+//       );
+//       if (result) {
+//         navigate("/DashBoardPage/GamesSection");
+//       }
+//       return;
+//     }
+
+//     try {
+//       const response_pointsded = await API.patch("/products", {
+//         points: product.discountAmount,
+//         userId: userId,
+//         productsBought: productsBought,
+//       });
+
+//       if (response_pointsded.data.status === "success") {
+//         dispatch(setPoints(response_pointsded.data.newpoints));
+//         dispatch(incrementProductsBought());
+//         alert("✅ Purchase successful! Redirecting to download PDF...");
+//         window.open(product.bookLink, "_blank");
+//       } else {
+//         alert("❌ Failed to deduct points. Please try again.");
+//       }
+//     } catch (error) {
+//       console.log(error);
+//       alert("Something went wrong during purchase.");
+//     }
+//   };
+
+//   return (
+//     <>
+//       <Helmet>
+//         <title>Products Section</title>
+//       </Helmet>
+//       <input
+//         type="checkbox"
+//         id="drawer-toggle"
+//         className="relative sr-only peer"
+//       />
+//       <label
+//         htmlFor="drawer-toggle"
+//         className="absolute top-4 left-4 inline-block p-3 transition-all duration-500 bg-green-600 rounded-lg cursor-pointer peer-checked:left-64 peer-checked:rotate-180 z-30"
+//       >
+//         <div className="w-6 h-1 mb-1.5 -rotate-45 bg-white rounded-lg"></div>
+//         <div className="w-6 h-1 rotate-45 bg-white rounded-lg"></div>
+//       </label>
+
+//       {/* Sidebar */}
+//       <div className="fixed top-0 left-0 z-20 w-64 h-full transform -translate-x-full transition-transform duration-500 ease-in-out bg-white shadow-lg peer-checked:translate-x-0">
+//         <div className="px-6 py-8 space-y-6">
+//           <h2 className="text-lg font-semibold">Dashboard Menu</h2>
+//           <nav className="flex flex-col gap-4">
+//             <button
+//               onClick={() => navigate("/DashBoardPage")}
+//               className="text-left px-3 py-2 rounded-lg hover:bg-green-100 transition"
+//             >
+//               Main Page
+//             </button>
+//             <button
+//               onClick={() => navigate("/DashBoardPage/VideosSection")}
+//               className="text-left px-3 py-2 rounded-lg hover:bg-green-100 transition"
+//             >
+//               Videos Section
+//             </button>
+//             <button
+//               onClick={() => navigate("/DashBoardPage/GamesSection")}
+//               className="text-left px-3 py-2 rounded-lg hover:bg-green-100 transition"
+//             >
+//               Games Section
+//             </button>
+//             <button
+//               onClick={() => navigate("/DashBoardPage/CoachSection")}
+//               className="text-left px-3 py-2 rounded-lg hover:bg-green-100 transition"
+//             >
+//               Coach Section
+//             </button>
+//             <button
+//               onClick={() => navigate("/DashBoardPage/EmotionRecorder")}
+//               className="text-left px-3 py-2 rounded-lg hover:bg-green-100 transition"
+//             >
+//               Emotion Recorder
+//             </button>
+//             <button
+//               onClick={logoutsession}
+//               className="text-left px-3 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition"
+//             >
+//               Logout
+//             </button>
+//           </nav>
+//         </div>
+//       </div>
+
+//       <div className="coach-section">
+//         <div className="floating-bg">
+//           <div className="bubble bubble-1"></div>
+//           <div className="bubble bubble-2"></div>
+//           <div className="bubble bubble-3"></div>
+//           <div className="bubble bubble-4"></div>
+//           <div className="bubble bubble-5"></div>
+//           <div className="bubble bubble-6"></div>
+//         </div>
+//         <div className="products-section">
+//           <div className="flex-1 p-10 overflow-y-auto transition-all duration-500 ease-in-out peer-checked:ml-64">
+//             <h3>Welcome to Products Section</h3>
+//             {productsSuccess && (
+//               <>
+//                 <h3>Products are listed below</h3>
+//                 <h3>Your Points: {globalPoints_Products}</h3>
+
+//                 {/* <div className="products-container">
+//                 {productz.map((product, index) => (
+//                   <div key={index} className="book">
+//                     <div className="book-cover">
+//                       <h3>{product.name}</h3>
+//                       <img
+//                         src={product.image}
+//                         alt={product.name}
+//                         style={{ maxWidth: "100%", borderRadius: "4px" }}
+//                       />
+//                       <p>⭐ Rating: {product.rating}</p>
+//                       <p>Discounted Price: {product.discountAmount}</p>
+//                       <p>
+//                         <span>Original: {product.Amount}</span>
+//                       </p>
+//                       <button onClick={() => handleBuy(product)}>
+//                         View Me 👀
+//                       </button>
+//                     </div>
+
+//                     <div className="book-spine"></div>
+
+//                     <div className="book-page">
+//                       <h4>About this book</h4>
+//                       <p>{product.description}</p>
+//                       <h4>Motive</h4>
+//                       <p>{product.motive}</p>
+//                       <button onClick={() => handleBuy(product)}>
+//                         Purchase Now 🛒
+//                       </button>
+//                     </div>
+//                   </div>
+//                 ))}
+//               </div> */}
+//                 <div className="products-container">
+//                   {productz.map((product, index) => (
+//                     <div key={index} className="book">
+//                       <div className="flip-card">
+//                         <div className="flip-card__container">
+//                           <div className="book-cover">
+//                             <h3>{product.name}</h3>
+//                             <img
+//                               src={product.image}
+//                               alt={product.name}
+//                               style={{ maxWidth: "100%", borderRadius: "4px" }}
+//                             />
+//                             <p>⭐ Rating: {product.rating}</p>
+//                             <p>Discounted Price: {product.discountAmount}</p>
+//                             <p>
+//                               <span>Original: {product.Amount}</span>
+//                             </p>
+//                             <button onClick={() => handleBuy(product)}>
+//                               View me
+//                             </button>
+//                           </div>
+
+//                           <div className="book-page"></div>
+//                         </div>
+//                       </div>
+
+//                       <div className="inside-page">
+//                         <div className="inside-page__container">
+//                           <h4>About this book</h4>
+//                           <p>{product.description}</p>
+//                           <h4>Motive</h4>
+//                           <p>{product.motive}</p>
+//                           <button
+//                             className="inside-page__btn inside-page__btn--city"
+//                             onClick={() => handleBuy(product)}
+//                           >
+//                             Purchase Now
+//                           </button>
+//                         </div>
+//                       </div>
+//                     </div>
+//                   ))}
+//                 </div>
+//               </>
+//             )}
+//             {productsFailure && <h1>Error fetching the products data.</h1>}
+//           </div>
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
+
+// export default ProductsSection;
+
 import API from "../api/axios";
 import { Helmet } from "react-helmet-async";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setPoints } from "../redux/userSlice";
+import { incrementProductsBought, setPoints } from "../redux/userSlice";
 import { useNavigate } from "react-router-dom";
 import "../assets/animations/ProductsSection.css"; // ✅ Import the CSS we built
-
+import "../assets/animations/CoachSection.css";
 const ProductsSection = () => {
   const [productz, setProductz] = useState([]);
   const [productsFailure, setProductsFailure] = useState(false);
   const [productsSuccess, setProductsSuccess] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const productsBought = useSelector((state) => state.user.productsBought);
   let globalPoints_Products = useSelector((state) => state.user.points);
   const userId = useSelector((state) => state.user._id);
 
@@ -1016,7 +1455,7 @@ const ProductsSection = () => {
         "You don't have enough points to buy this product. Do you want to play games and add more points?"
       );
       if (result) {
-        navigate("/DashBoardPage");
+        navigate("/DashBoardPage/GamesSection");
       }
       return;
     }
@@ -1025,10 +1464,12 @@ const ProductsSection = () => {
       const response_pointsded = await API.patch("/products", {
         points: product.discountAmount,
         userId: userId,
+        productsBought: productsBought,
       });
 
       if (response_pointsded.data.status === "success") {
         dispatch(setPoints(response_pointsded.data.newpoints));
+        dispatch(incrementProductsBought());
         alert("✅ Purchase successful! Redirecting to download PDF...");
         window.open(product.bookLink, "_blank");
       } else {
@@ -1088,10 +1529,10 @@ const ProductsSection = () => {
               Coach Section
             </button>
             <button
-              onClick={() => navigate("/DashBoardPage/CoachSection")}
+              onClick={() => navigate("/DashBoardPage/EmotionRecorder")}
               className="text-left px-3 py-2 rounded-lg hover:bg-green-100 transition"
             >
-              Voice Text Section
+              Emotion Recorder
             </button>
             <button
               onClick={logoutsession}
@@ -1103,54 +1544,111 @@ const ProductsSection = () => {
         </div>
       </div>
 
-      <div className="flex-1 p-10 overflow-y-auto transition-all duration-500 ease-in-out peer-checked:ml-64">
-        <h3>Welcome to Products Section</h3>
-        {productsSuccess && (
-          <>
-            <h3>Products are listed below</h3>
-            <h3>Your Points: {globalPoints_Products}</h3>
+      <div className="coach-section">
+        <div className="floating-bg">
+          <div className="bubble bubble-1"></div>
+          <div className="bubble bubble-2"></div>
+          <div className="bubble bubble-3"></div>
+          <div className="bubble bubble-4"></div>
+          <div className="bubble bubble-5"></div>
+          <div className="bubble bubble-6"></div>
+        </div>
+        <div className="products-section">
+          <div className="products-wrapper">
+            <h3>Welcome to Products Section</h3>
+            {productsSuccess && (
+              <>
+                <h3>Products are listed below</h3>
+                <h3>Your Points: {globalPoints_Products}</h3>
 
-            <div className="products-container">
-              {productz.map((product, index) => (
-                <div key={index} className="book">
-                  {/* FRONT COVER */}
-                  <div className="book-cover">
-                    <h3>{product.name}</h3>
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      style={{ maxWidth: "100%", borderRadius: "4px" }}
-                    />
-                    <p>⭐ Rating: {product.rating}</p>
-                    <p>Discounted Price: {product.discountAmount}</p>
-                    <p>
-                      <span>Original: {product.Amount}</span>
-                    </p>
-                    <button onClick={() => handleBuy(product)}>
-                      Buy / Download PDF
-                    </button>
+                {/* <div className="products-container">
+                {productz.map((product, index) => (
+                  <div key={index} className="book">
+                    <div className="book-cover">
+                      <h3>{product.name}</h3>
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        style={{ maxWidth: "100%", borderRadius: "4px" }}
+                      />
+                      <p>⭐ Rating: {product.rating}</p>
+                      <p>Discounted Price: {product.discountAmount}</p>
+                      <p>
+                        <span>Original: {product.Amount}</span>
+                      </p>
+                      <button onClick={() => handleBuy(product)}>
+                        View Me 👀
+                      </button>
+                    </div>
+
+                    <div className="book-spine"></div>
+
+                    <div className="book-page">
+                      <h4>About this book</h4>
+                      <p>{product.description}</p>
+                      <h4>Motive</h4>
+                      <p>{product.motive}</p>
+                      <button onClick={() => handleBuy(product)}>
+                        Purchase Now 🛒
+                      </button>
+                    </div>
                   </div>
+                ))}
+              </div> */}
+                <div className="products-container">
+                  {productz.map((product, index) => (
+                    <div key={index} className="book">
+                      <div className="flip-card">
+                        <div className="flip-card__container">
+                          <div className="book-cover">
+                            <h3>{product.name}</h3>
+                            <img
+                              src={product.image}
+                              alt={product.name}
+                              style={{ maxWidth: "100%", borderRadius: "4px" }}
+                            />
+                            <p>⭐ Rating: {product.rating}</p>
+                            <p>Discounted Price: {product.discountAmount}</p>
+                            <p>
+                              <span>Original: {product.Amount}</span>
+                            </p>
+                            <button onClick={() => handleBuy(product)}>
+                              View me
+                            </button>
+                          </div>
 
-                  {/* BOOK SPINE */}
-                  <div className="book-spine"></div>
+                          <div className="book-page"></div>
+                        </div>
+                      </div>
 
-                  {/* INNER PAGE */}
-                  <div className="book-page">
-                    <h4>About this book</h4>
-                    <p>
-                      This is a premium product. Use your points to unlock and
-                      download the PDF instantly.
-                    </p>
-                    <button onClick={() => handleBuy(product)}>
-                      Purchase Now
-                    </button>
-                  </div>
+                      <div className="inside-page">
+                        <div className="inside-page__container">
+                          <p>
+                            <span style={{ fontWeight: "bold" }}>
+                              About book:{" "}
+                            </span>
+                            {product.description}
+                          </p>
+                          <p style={{ marginTop: "0.7rem" }}>
+                            <span style={{ fontWeight: "bold" }}>Motive: </span>
+                            {product.motive}
+                          </p>
+                          <button
+                            className="inside-page__btn inside-page__btn--city"
+                            onClick={() => handleBuy(product)}
+                          >
+                            Purchase Now
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </>
-        )}
-        {productsFailure && <h1>Error fetching the products data.</h1>}
+              </>
+            )}
+            {productsFailure && <h1>Error fetching the products data.</h1>}
+          </div>
+        </div>
       </div>
     </>
   );

@@ -70,7 +70,8 @@ import CoachSection from "./components/CoachSection.jsx";
 import VoiceToText from "./components/VoicetextSection.jsx";
 import OfflineAnimation from "./components/OfflineAnimations.jsx";
 import "./index.css";
-
+import EmotionRecorder from "./components/EmotionRecorder.jsx";
+import "../src/assets/animations/EmojisSection.css"; // ✅ Import CSS
 function App() {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuthenticated);
@@ -78,14 +79,18 @@ function App() {
   const error = useSelector(selectError);
 
   // On app load or refresh, fetch current user from backend
+  // useEffect(() => {
+  //   dispatch(fetchCurrentUser())
+  //     .unwrap()
+  //     .catch((err) => {
+  //       // If fetch fails (401 or other), log out
+  //       dispatch({ type: "user/logoutUser" });
+  //       console.log(err);
+  //     });
+  // }, [dispatch]);
+
   useEffect(() => {
-    dispatch(fetchCurrentUser())
-      .unwrap()
-      .catch((err) => {
-        // If fetch fails (401 or other), log out
-        dispatch({ type: "user/logoutUser" });
-        console.log(err);
-      });
+    dispatch(fetchCurrentUser());
   }, [dispatch]);
 
   // While loading, show a spinner or placeholder
@@ -102,7 +107,13 @@ function App() {
         <Route path="/SignInPage" element={<SignInPage />} />
         <Route
           path="/DashBoardPage/*"
-          element={isAuth ? <DashBoardPage /> : <Navigate to="/" />}
+          element={
+            isAuth ? (
+              <DashBoardPage className="dashboard-container" />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
         />
         <Route
           path="/DashBoardPage/VideosSection"
@@ -115,8 +126,8 @@ function App() {
         />
         <Route path="/DashBoardPage/CoachSection" element={<CoachSection />} />
         <Route
-          path="/DashBoardPage/VoicetextSection"
-          element={<VoiceToText />}
+          path="/DashBoardPage/EmotionRecorder"
+          element={<EmotionRecorder />}
         />
       </Routes>
       {error && <div className="error-banner">{error}</div>}
